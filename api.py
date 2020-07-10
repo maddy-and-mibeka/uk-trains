@@ -15,7 +15,7 @@ def get_region(search_term):
 	except:
 		return "Region doesn't exist in database", 400
 
-
+# What the hell does this post endpoint do!!
 @app.route('/region', methods=['POST'])
 def add_region():
 	session = dbconnect()
