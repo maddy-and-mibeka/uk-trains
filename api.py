@@ -4,6 +4,8 @@ from model import Region, Station_name, dbconnect
 
 app = Flask(__name__)
 
+#Readme: https://www.w3schools.com/tags/ref_httpmethods.asp
+
 @app.route('/region/<search_term>', methods=['GET'])
 def get_region(search_term):
 	session = dbconnect()
@@ -12,6 +14,22 @@ def get_region(search_term):
 	    return jsonify(region_instance.id), 200
 	except:
 		return "Region doesn't exist in database", 400
+
+
+@app.route('/region', methods=['POST'])
+def add_region():
+	session = dbconnect()
+	request_dict = request.get_json()
+	try: # Try to create the region
+		region_instance = Region()
+		region_instance.region_name = request_dict["Region"]
+		session.add(region_instance)
+		session.commit()
+		return jsonify(region_instance.id)
+	except exc.IntegrityError: # If the region doesn't exist - freak out and send back 400.
+		session.rollback()
+		return "already exists", 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
