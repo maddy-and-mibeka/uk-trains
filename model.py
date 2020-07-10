@@ -10,7 +10,7 @@ Base = declarative_base()
 class Region(Base):
     __tablename__ = 'region'
     id = Column(Integer, primary_key=True)
-    region = Column(String)
+    region_name = Column(String)
 
 
 # Station name is a child of Region

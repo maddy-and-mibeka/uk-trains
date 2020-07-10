@@ -1,6 +1,7 @@
 import csv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from model import Region, Station_name, dbconnect
+from sqlalchemy import exc
 
 app = Flask(__name__)
 
@@ -8,12 +9,13 @@ app = Flask(__name__)
 
 @app.route('/region/<search_term>', methods=['GET'])
 def get_region(search_term):
-	session = dbconnect()
-	try:
-	    region_instance = session.query(Region).filter(Region.region == search_term).one()
-	    return jsonify(region_instance.id), 200
-	except:
-		return "Region doesn't exist in database", 400
+    session = dbconnect()
+    try:
+        region_instance = session.query(Region).filter(Region.region_name == search_term).one()
+        return jsonify(region_instance.id), 200
+    except:
+        # print(e)
+        return "Region doesn't exist in database", 400
 
 # What the hell does this post endpoint do!!
 @app.route('/region', methods=['POST'])
