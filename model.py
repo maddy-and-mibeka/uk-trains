@@ -10,12 +10,12 @@ Base = declarative_base()
 class Region(Base):
     __tablename__ = 'region'
     id = Column(Integer, primary_key=True)
-    region_name = Column(String)
+    region = Column(String)
 
 
 # Station name is a child of Region
-class Station_name(Base):
-    __tablename__ = 'station_name'
+class Station(Base):
+    __tablename__ = 'station'
     id = Column(Integer, primary_key=True)
     NLC = Column(String)
     TLC = Column(String)
@@ -38,7 +38,7 @@ class Station_name(Base):
     E1718_Entries_Exits_GB_Rank = Column(String)
     Change = Column(String)
     # We define the relationship between Region and station name here.
-    region = relation("Region", backref="station_name")
+    region = relation("Region", backref="station")
     region_id = Column(Integer, ForeignKey('region.id'))
 
 
